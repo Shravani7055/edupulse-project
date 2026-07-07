@@ -240,8 +240,9 @@ else:
         network_status = st.sidebar.radio("Network Simulation Mode:", ["Online (Connect to n8n AI Workflow)", "Offline Mode (Zero Internet)"])
         st.sidebar.write("---")
 
-        # Secured webhook injection ready for deployment config
-        N8N_WEBHOOK_URL = st.secrets.get("N8N_CHAT_WEBHOOK", "YOUR_N8N_PRODUCTION_WEBHOOK_URL")
+        
+        raw_webhook = st.secrets.get("N8N_CHAT_WEBHOOK", "")
+        N8N_WEBHOOK_URL = raw_webhook.rstrip("/") + "/webhook/generate-lesson"
 
         if network_status == "Online (Connect to n8n AI Workflow)":
             st.markdown("""
