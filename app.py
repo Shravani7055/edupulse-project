@@ -240,9 +240,13 @@ else:
         network_status = st.sidebar.radio("Network Simulation Mode:", ["Online (Connect to n8n AI Workflow)", "Offline Mode (Zero Internet)"])
         st.sidebar.write("---")
 
-        
-        raw_webhook = st.secrets.get("N8N_CHAT_WEBHOOK", "")
-        N8N_WEBHOOK_URL = raw_webhook.rstrip("/") + "/webhook/generate-lesson"
+        raw_webhook = st.secrets.get("N8N_CHAT_WEBHOOK")
+
+        if raw_webhook:
+            N8N_WEBHOOK_URL = f"{raw_webhook.rstrip('/')}/webhook/generate-lesson"
+        else:
+            N8N_WEBHOOK_URL = None
+            st.error("⚠️ N8N_CHAT_WEBHOOK secret not found! Check Streamlit Settings.")
 
         if network_status == "Online (Connect to n8n AI Workflow)":
             st.markdown("""
